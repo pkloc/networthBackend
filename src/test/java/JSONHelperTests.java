@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JSONHelperTests
 {
+
     @Test
-    void updateTotalsInJSONObject_HappyPath(){
+    void updateTotalsInJSONObject_givenExpectedJSONvalues_updatesTotalsInTheGivenJSONObject(){
 
         // Arrange
         JSONObject jo = new JSONObject();
@@ -28,11 +29,15 @@ class JSONHelperTests
         JSONObject item4 = new JSONObject();
         item4.put("type", "liability");
         item4.put("amount", "4000.50");
+        JSONObject item5 = new JSONObject();
+        item5.put("type", "liability");
+        item5.put("amount", "");
 
         items.put(item1);
         items.put(item2);
         items.put(item3);
         items.put(item4);
+        items.put(item5);
 
         jo.put("items", items);
 
