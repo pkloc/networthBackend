@@ -11,11 +11,18 @@ public class Main {
     //
 
     public static void main(String[] args){
+
+        ExchangeRate exchangeRate = new ExchangeRatesAPIExchangeRate();
+
         post("/data", (req, res) ->
                 {
                     System.out.println(req.body());
                     JSONObject jo = new JSONObject(req.body());
                     JSONHelper.updateTotalsInJSONObject(jo);
+
+                    if(JSONHelper.shouldUpdateCurrency(jo)){
+
+                    }
 
                     return "Hello World";
                 }

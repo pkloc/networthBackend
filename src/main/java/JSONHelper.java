@@ -22,4 +22,12 @@ public interface JSONHelper {
         jsonObject.put("totalLiabilities", String.format("%.2f", totalLiabilities));
         jsonObject.put("netWorth", String.format("%.2f", totalAssets - totalLiabilities));
     }
+
+    static void updateCurrencyInJSONObject(JSONObject jsonObject, ExchangeRate exchangeRate){
+
+    }
+
+    static boolean shouldUpdateCurrency(JSONObject jsonObject){
+        return !jsonObject.getString("currentCurrency").equalsIgnoreCase(jsonObject.getString("newCurrency"));
+    }
 }
