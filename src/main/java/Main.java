@@ -21,10 +21,11 @@ public class Main {
                     JSONHelper.updateTotalsInJSONObject(jo);
 
                     if(JSONHelper.shouldUpdateCurrency(jo)){
-
+                        System.out.println("Updating currency");
+                        JSONHelper.updateCurrencyInJSONObject(jo, exchangeRate);
                     }
 
-                    return "Hello World";
+                    return jo;
                 }
                 );
     }

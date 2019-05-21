@@ -24,7 +24,24 @@ public interface JSONHelper {
     }
 
     static void updateCurrencyInJSONObject(JSONObject jsonObject, ExchangeRate exchangeRate){
+        double rate = exchangeRate.getExchangeRate(jsonObject.getString("currentCurrency"), jsonObject.getString("newCurrency"));
 
+        double totalAssets = rate * jsonObject.getDouble("totalAssets");
+        double totalLiabilities = rate * jsonObject.getDouble("totalLiabilities");
+        double netWorth = rate * jsonObject.getDouble("netWorth");
+        jsonObject.put("totalAssets", String.format("%.2f", totalAssets));
+        jsonObject.put("totalLiabilities", String.format("%.2f", totalLiabilities));
+        jsonObject.put("netWorth", String.format("%.2f", totalAssets - totalLiabilities));
+
+        JSONArray items = jsonObject.getJSONArray("items");
+        for(int i = 0; i < items.length(); i++) {
+            double amount =  items.getJSONObject(i).optDouble("amount");
+            if(!Double.isNaN(amount)){
+                items.getJSONObject(i).put("amount", String.format("%.2f", rate * amount));
+            }
+        }
+
+        jsonObject.put("currentCurrency", jsonObject.getString("newCurrency"));
     }
 
     static boolean shouldUpdateCurrency(JSONObject jsonObject){

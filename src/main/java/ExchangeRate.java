@@ -1,4 +1,4 @@
 public interface ExchangeRate {
 
-    public double getExchangeRate(Currency base, Currency desired);
+    public double getExchangeRate(String base, String desired);
 }
