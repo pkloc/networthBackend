@@ -1,6 +1,6 @@
 import org.json.JSONObject;
 
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -14,16 +14,43 @@ public class Main {
 
         ExchangeRate exchangeRate = new ExchangeRatesAPIExchangeRate();
 
-        post("/data", (req, res) ->
+        // To take care of CORS
+        options("/*",
+                (request, response) -> {
+
+                    String accessControlRequestHeaders = request
+                            .headers("Access-Control-Request-Headers");
+                    if (accessControlRequestHeaders != null) {
+                        response.header("Access-Control-Allow-Headers",
+                                accessControlRequestHeaders);
+                    }
+
+                    String accessControlRequestMethod = request
+                            .headers("Access-Control-Request-Method");
+                    if (accessControlRequestMethod != null) {
+                        response.header("Access-Control-Allow-Methods",
+                                accessControlRequestMethod);
+                    }
+
+                    return "OK";
+                });
+
+        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+
+        post("/data", (request, response) ->
                 {
-                    System.out.println(req.body());
-                    JSONObject jo = new JSONObject(req.body());
+                    response.type("application/json");
+
+                    System.out.println(request.body());
+                    JSONObject jo = new JSONObject(request.body());
                     JSONHelper.updateTotalsInJSONObject(jo);
 
                     if(JSONHelper.shouldUpdateCurrency(jo)){
                         System.out.println("Updating currency");
                         JSONHelper.updateCurrencyInJSONObject(jo, exchangeRate);
                     }
+
+                    System.out.println(jo);
 
                     return jo;
                 }
