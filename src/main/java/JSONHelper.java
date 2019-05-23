@@ -28,7 +28,6 @@ public interface JSONHelper {
 
         double totalAssets = rate * jsonObject.getDouble("totalAssets");
         double totalLiabilities = rate * jsonObject.getDouble("totalLiabilities");
-        double netWorth = rate * jsonObject.getDouble("netWorth");
         jsonObject.put("totalAssets", String.format("%.2f", totalAssets));
         jsonObject.put("totalLiabilities", String.format("%.2f", totalLiabilities));
         jsonObject.put("netWorth", String.format("%.2f", totalAssets - totalLiabilities));

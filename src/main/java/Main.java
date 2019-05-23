@@ -41,17 +41,12 @@ public class Main {
                 {
                     response.type("application/json");
 
-                    System.out.println(request.body());
                     JSONObject jo = new JSONObject(request.body());
                     JSONHelper.updateTotalsInJSONObject(jo);
 
                     if(JSONHelper.shouldUpdateCurrency(jo)){
-                        System.out.println("Updating currency");
                         JSONHelper.updateCurrencyInJSONObject(jo, exchangeRate);
                     }
-
-                    System.out.println(jo);
-
                     return jo;
                 }
                 );
